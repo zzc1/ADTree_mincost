@@ -1,0 +1,42 @@
+<component name="libraryTable">
+  <library name="ADTree_mincost_lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/antlr4-runtime-4.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/apfloat-1.8.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/commons-csv-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/commonmark-0.12.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/failureaccess-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/guava-23.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/guava-27.1-android.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/hipparchus-core-1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/hipparchus-fft-1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/hipparchus-fitting-1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/hipparchus-ode-1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/hipparchus-optim-1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/hipparchus-stat-1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/idw-gpl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/itextpdf-5.5.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/jas-2.6.5988.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/jnlp.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/javassist.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/jsr305.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/log4j-api-2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/log4j-core-2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/log4j-over-slf4j-1.7.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/logicng-1.5.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/matheclipse-core-1.0.0-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/org.abego.treelayout.core-1.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/reflections-0.9.11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/slf4j-android-1.7.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/slf4j-api-1.7.25.jar!/" />
+      <root url="file://$PROJECT_DIR$/../ADTree_mincost_lib" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../ADTree_mincost_lib/jsr305.jar!/" />
+      <root url="file://$PROJECT_DIR$/../ADTree_mincost_lib" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/../ADTree_mincost_lib" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../ADTree_mincost_lib" recursive="false" type="SOURCES" />
+  </library>
+</component>

@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:annotation>
+    <xsd:documentation xml:lang="en">
+      ADTree schema.
+      Author: Piotr Kordy (piotr.kordy@uni.lu)
+      Copyright (c) 2013,2012 University of Luxembourg -- Interdisciplinary
+      Centre for Security, Reliability and Trust SnT.
+      All rights reserved.
+    </xsd:documentation>
+  </xsd:annotation>
+<!--The outermost document should  contain one element - adtree-->
+  <xsd:element name="adtree" type="adtreeType">
+<!-- key restrictions -->
+    <xsd:key name="DomainKey">
+     <xsd:selector xpath=".//domain"/>
+     <xsd:field xpath="@id"/>
+    </xsd:key>
+    <xsd:keyref name="DomainKeyRef" refer="DomainKey">
+     <xsd:selector xpath=".//parameter"/>
+     <xsd:field xpath="@domainId"/>
+    </xsd:keyref>
+  </xsd:element> 
+
+  <xsd:complexType name="adtreeType">
+    <xsd:sequence>
+      <xsd:element name="node" type="nodeType" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="domain" type="domainType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="nodeType">
+    <xsd:sequence>
+      <xsd:element name="label" type="labelType" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="parameter" type="parameterType" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="node" type="nodeType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="refinement" type="refinementType" use="optional" default="disjunctive"/>
+    <xsd:attribute name="switchRole" type="booleanType" use="optional" default="no"/>
+  </xsd:complexType>
+
+  <xsd:simpleType name="labelType">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[0-9A-Za-z\s\?!\-_';:#\[\{\}\]=\*/\\\|@\^`&quot;&amp;$~\.&lt;&gt;\+%]+"/>
+      <xsd:whiteSpace value="preserve"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="parameterType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="domainId" type="xsd:string" use="required"/>
+        <xsd:attribute name="category" type="categoryType" use="optional" default="basic"/>
+      </xsd:extension>
+     </xsd:simpleContent>
+  </xsd:complexType>
+
+  <xsd:simpleType name="refinementType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="disjunctive"/>
+      <xsd:enumeration value="conjunctive"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="booleanType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="yes"/>
+      <xsd:enumeration value="no"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="categoryType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="basic"/>
+      <xsd:enumeration value="default"/>
+      <xsd:enumeration value="derived"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="domainType">
+    <xsd:sequence>
+      <xsd:element name="class" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="range" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="tool" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="id" type="xsd:string" use="required"/>
+  </xsd:complexType>
+
+
+</xsd:schema> 
