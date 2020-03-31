@@ -1,23 +1,3 @@
-/**
- * Author: Piotr Kordy (piotr.kordy@uni.lu <mailto:piotr.kordy@uni.lu>)
- * Date:   06/06/2013
- * Copyright (c) 2013,2012 University of Luxembourg -- Faculty of Science,
- *     Technology and Communication FSTC
- * All rights reserved.
- * Licensed under GNU Affero General Public License 3.0;
- *    This program is free software: you can redistribute it and/or modify
- *    it under the terms of the GNU Affero General Public License as
- *    published by the Free Software Foundation, either version 3 of the
- *    License, or (at your option) any later version.
- *
- *    This program is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU Affero General Public License for more details.
- *
- *    You should have received a copy of the GNU Affero General Public License
- *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 package adtool.ui;
 
 import adtool.Choices;
@@ -31,7 +11,6 @@ import adtool.domains.predefined.MinCost;
 import adtool.domains.rings.RealG0;
 import adtool.domains.rings.Ring;
 import adtool.mincost.ATNode;
-import adtool.mincost.ComputeSet;
 import adtool.mincost.SetWindow;
 import adtool.mincost.Test;
 import adtool.ui.texts.ButtonTexts;
@@ -524,112 +503,42 @@ public class MainWindow extends Frame {
 		cutset.setIcon(new ImageIcon(getClass().getResource("/icons/compute.png")));
 		cutset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
-				ComputeSet computeSet=new ComputeSet();
-				ATNode root=new ATNode();
-				root=createATree();
+
+				ATNode root=createATree();
 				Test test=new Test();
 				test.setRoot(root);
+				test.init_randomLabels();
+				test.changeLabeltoCalculate(root);
+
 				long starttime=System.currentTimeMillis();
 				long endtime=System.currentTimeMillis();
-				starttime=System.currentTimeMillis();
-				
-				
-		//		Runtime r = Runtime.getRuntime();
-		//		r.gc();
-		//		long startMem = r.freeMemory(); // 开始时的剩余内存 
-				
 
-		
+				starttime=System.currentTimeMillis();
+				//正常树求解
 				test.getDefCost(root);
 				HashSet<ATNode> vector=new HashSet<ATNode>();
 				vector.add(root);
     			test.getExp(root.getLabel(), vector);
-				endtime=System.currentTimeMillis();
+				test.show();
+    			endtime=System.currentTimeMillis();
 				System.out.println("正常树："+(endtime-starttime)+"ms");
-//				test.show();
-//				System.out.println(startMem+" "+r.freeMemory());
-				//long  orz = (startMem - r.freeMemory())/1024; // 剩余内存 现在
-			    //System.out.println("current mem: " + orz);
-				
-//				int j=0;
-//				for(int i=0;i<10000000;i++) {
-//					j=j+1;
-//				}
+
 				starttime=System.currentTimeMillis();
-	//			r.gc();
-	//			startMem = r.freeMemory();
+
+
+				//原子树求解
 				ATNode newRoot=new ATNode();
-				
-				
-				
 				newRoot.setLabel("n_"+ATNode.getNums());
 				newRoot.getChildren().add(root);
 				test.equalTree(newRoot);
 				test.getDefCost(newRoot);
-				
-//				Vector<ATNode> newvector=new Vector<ATNode>();
-//				newvector.add(newRoot);
-//				newRoot.getLogExp();
-//				test.getLogExp(newRoot.getLabel(), newvector);
+
 				test.removeNnode(newRoot);
-//				System.out.println(test.getLogExp(newRoot));
-//			    System.out.println(newRoot.getLogExp());
-//			    System.out.println(test.expand(test.getLogExp(newRoot)));
-			    
+
 				test.atomtree(test.getLogExp(newRoot));
 				endtime=System.currentTimeMillis();
 				String rString=test.showatomtree();
 				System.out.println("原子树求割集："+(endtime-starttime)+"ms");
-			//	long orz = (startMem - r.freeMemory())/1024; // 剩余内存 现在
-			//	System.out.println(startMem+" "+r.freeMemory());
-			//    System.out.println("current mem: " + orz);
-				labels.clear();
-				root=createATree();
-		    	computeSet.setRoot(root);
-		    	computeSet.setlabels(labels);
-		    	starttime=System.currentTimeMillis();
-		    	minvalues=computeSet.getcloseSet(root.getExp3().replace("+", " ").replace("*", "#"));
-		    	String[] sets=minvalues.split(" ");
-		    	Arrays.sort(sets);
-		    	for(String s:sets){
-		    		String tmp=s.substring(1,s.length()-1);
-		    		String[] def=tmp.split(",");
-		    		double result=0;
-		    		for(String x: def){
-		    			result=result+((RealG0)denfCost.get(x.toLowerCase())).getValue();
-		    		}
-		    		minCost.put(s, result);
-		    	}
-		
-//		    	String result="逻辑表达式："+root.getLabel()+"="+root.getLogExp()+"\n\n"
-//		    			+"表达式展开后："+ root.getLabel()+ "=" + root.getExp()+"\n\n"
-//		    			+"最小割集是："+ computeSet.getcloseSet(root.getExp().replace("+", " ").replace("*", "#"))+"\n\n"
-//		    			+"最小径集是："+minvalues+"\n\n";
-		      	endtime=System.currentTimeMillis();
-			    System.out.println("原子树："+(endtime-starttime)+"ms");
-//		        List<Map.Entry<String,Double>> list = new ArrayList<Map.Entry<String,Double>>(minCost.entrySet());
-//		        Collections.sort(list,new Comparator<Map.Entry<String,Double>>() {
-//		            //升序排序
-//		            public int compare(Entry<String, Double> o1,
-//		                    Entry<String, Double> o2) {
-//		                return o1.getValue().compareTo(o2.getValue());
-//		            }
-//
-//		        });
-//
-//		    	String result="";
-//		        for(Entry<String, Double> mapping:list){ 
-//		               result+=mapping.getKey()+":"+String.format("%.2f", mapping.getValue())+"\n"; 
-//		        }
-//		        result+="\n\n\n";
-				
-				
-		        String[] numStrings= {"a","b","c","d","e","f","g","h","i","j","k"};
-		        String[] reStrings= {"ug","m1","m2","m3","a1","m4","a2","a2","a4","a5","a6"};
-		        for(int i=0;i<numStrings.length;i++) {
-		        	rString=rString.replaceAll(numStrings[i], reStrings[i]);
-		        }
 		    	SetWindow setwindow=new SetWindow();
 		    	setwindow.initUI();
 		    	setwindow.setPanel(rString);

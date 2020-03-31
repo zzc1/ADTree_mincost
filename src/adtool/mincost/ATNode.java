@@ -102,7 +102,7 @@ public class ATNode {
 		return (children == null) ? 0 : children.size();
 	}
 
-	// ����չ������߼����ʽ
+
 	public String getExp() {
 		return getExp1().replace(" ", "+");
 

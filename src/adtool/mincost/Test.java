@@ -25,11 +25,15 @@ public class Test {
 	private HashMap<String, Double> map = new HashMap<String, Double>();
 	private HashMap<String, Double> atommap = new HashMap<String, Double>();
 	private HashMap<String, Double> defcost = new HashMap<String, Double>();
+	private HashMap<String,String>  labels=new HashMap<>();
+
+
 	private Vector<HashSet<ATNode>> allnodes = new Vector<HashSet<ATNode>>();
 	private Vector<Vector<ATNode>> btnodes = new Vector<Vector<ATNode>>();
 	private Vector<String> ss = new Vector<String>();
 	private Vector<String> bt = new Vector<String>();
 	private Vector<String> at = new Vector<String>();
+	private Vector<String> randomLabels=new Vector<>();
 	
 	private String result="";
 
@@ -74,10 +78,6 @@ public class Test {
 	int i=0;
 	
 	public void getExp(String exp, HashSet<ATNode> nodes) {
-//		if(!at.contains(exp)) {
-//			i++;
-//			System.out.println(i+exp);
-//		}
 		if (allnodes.contains(nodes)||at.contains(exp))
 			return;
 		String temp = "";
@@ -103,13 +103,17 @@ public class Test {
 			return;
 		String[] xq = temp.split("\\+");
 		for (String x : xq) {
+			String[] hq = x.split("\\*");
 			String ts = x.replace("*", " ,");
+			for(String z:hq){
+				String tmp=labels.get(z);
+				ts=ts.replace(""+z,""+tmp);
+			}
 			ts = "{" + ts + "}";
 			if (ss.contains(ts) || ts.indexOf('(') != -1) {
 				continue;
 			}
 			ss.add(ts);
-			String[] hq = x.split("\\*");
 			double re = 0;
 			for (String y : hq) {
 				re = re + defcost.get(y.toLowerCase()).doubleValue();
@@ -217,7 +221,6 @@ public class Test {
 			}
 
 		});
-//	    	String result="";
 		for (Entry<String, Double> mapping : list) {
 			System.out.println(mapping.getKey() + mapping.getValue());
 		}
@@ -230,9 +233,13 @@ public class Test {
 //		System.out.println("exp"+exp);
 		String[] xq = exp.split("\\+");
 		for (String x : xq) {
-			String ts = x.replace("*", " ,");
-			ts = "{" + ts + "}";
 			String[] hq = x.split("\\*");
+			String ts = x.replace("*", " ,");
+			for(String z:hq){
+				String tmp=labels.get(z);
+				ts=ts.replace(""+z,""+tmp);
+			}
+			ts = "{" + ts + "}";
 			double re = 0;
 			for (String y : hq) {
 				re = re + defcost.get(y.toLowerCase()).doubleValue();
@@ -249,7 +256,6 @@ public class Test {
 	public String showatomtree() {
 		List<Entry<String, Double>> list = new ArrayList<Entry<String, Double>>(atommap.entrySet());
 		Collections.sort(list, new Comparator<Entry<String, Double>>() {
-			// ��������
 			public int compare(Entry<String, Double> o1, Entry<String, Double> o2) {
 				return o1.getValue().compareTo(o2.getValue());
 			}
@@ -257,64 +263,11 @@ public class Test {
 		});
 		String result = "";
 		for (Entry<String, Double> mapping : list) {
-			//System.out.println(mapping.getKey() + mapping.getValue());
-//			int len=mapping.getKey().length()+mapping.getValue().toString().length();
-//			String tmpString="";
-//			for(int i=0;i<100-len;i++) {
-//				tmpString=tmpString+" ";
-//			}
 			result+=mapping.getKey() +":"+mapping.getValue()+"\n";
 		}
 		return result;
 	}
 
-//	public void moveDown(ATNode root) {
-//		double rootvalue = root.getMincost();
-//		Vector<ATNode> children = root.getChildren();
-//		if (!children.isEmpty()) {
-//			if (root.getRefinementType() == RefinementType.CONJUNCTIVE) {
-//					double temp=Double.POSITIVE_INFINITY;
-//					for(ATNode child:children) {
-//						double childcost=child.getMincost();
-//						if(childcost<temp) {
-//							temp=childcost;
-//						}
-//					}
-//					root.setMincost(Double.POSITIVE_INFINITY);
-//					if(temp<rootvalue) {
-//						for(ATNode child:children) {
-//							//child.setMincost(temp);
-//							moveDown(child);
-//						}
-//					}else {
-//						for(ATNode child:children) {
-//							child.setMincost(rootvalue);
-//							moveDown(child);
-//						}
-//					}
-//			}else {
-//				double temp=0;
-//				for(ATNode child:children) {
-//					double childcost=child.getMincost();
-//					temp+=childcost;
-//				}
-//				root.setMincost(Double.POSITIVE_INFINITY);
-//				if(temp<rootvalue) {
-//					for(ATNode child:children) {
-//						moveDown(child);
-//					}
-//				}else {
-////					children.get(0).setMincost(rootvalue-children.size());
-////					moveDown(children.get(0));
-//					for(int i=0;i<children.size();i++) {
-//						children.get(i).setMincost(rootvalue);
-//						moveDown(children.get(i));
-//					}
-//				}
-//			}
-//		}
-//	}
-//	
 
 	public void showDefCost(ATNode root) {
 		if (root == null)
@@ -378,4 +331,32 @@ public class Test {
 		}
 	}
 
+	//暂支持650个替代标签
+	public void init_randomLabels(){
+		String alg="abcdefghijklmnopqrstuvwxyz";
+		for(int i=0;i<26;i++){
+			for(int j=0;j<26;j++){
+				if(i!=j)
+					randomLabels.add(""+alg.charAt(i)+alg.charAt(j));
+			}
+		}
+	}
+
+
+	public void changeLabeltoCalculate(ATNode root) {
+		//labels.clear();
+		Queue<ATNode> queue=new LinkedList<ATNode>();
+		queue.offer(root);
+		int i=0;
+		while (!queue.isEmpty()){
+			ATNode tmpNode=queue.poll();
+			String ss=randomLabels.get(i++);
+			labels.put(ss,tmpNode.getLabel());
+			tmpNode.setLabel(ss);
+			Vector<ATNode> V=tmpNode.getChildren();
+			for(ATNode node:V){
+				queue.offer(node);
+			}
+		}
+	}
 }

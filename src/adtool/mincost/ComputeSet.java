@@ -1,5 +1,6 @@
 package adtool.mincost;
 
+//求最小割集、最小径集
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,7 +16,7 @@ public class ComputeSet {
 	private Set<BigInteger> closeSet = new HashSet<BigInteger>();
 	private HashMap<String, ATNode> labels = new HashMap<>();
 
-	//����������С�
+
 	public String getcloseSet(String s) {
 		toprime();
 		String[] sa1 = s.split(" ");
@@ -123,3 +124,45 @@ public class ComputeSet {
 		this.labels = labels;
 	}
 }
+
+
+//			labels.clear();
+//			root=createATree();
+//			computeSet.setRoot(root);
+//			computeSet.setlabels(labels);
+//			starttime=System.currentTimeMillis();
+//			minvalues=computeSet.getcloseSet(root.getExp3().replace("+", " ").replace("*", "#"));
+//			String[] sets=minvalues.split(" ");
+//			Arrays.sort(sets);
+//			for(String s:sets){
+//			String tmp=s.substring(1,s.length()-1);
+//			String[] def=tmp.split(",");
+//			double result=0;
+//			for(String x: def){
+//			result=result+((RealG0)denfCost.get(x.toLowerCase())).getValue();
+//			}
+//			minCost.put(s, result);
+//			}
+//
+//			String result="逻辑表达式："+root.getLabel()+"="+root.getLogExp()+"\n\n"
+//			+"表达式展开后："+ root.getLabel()+ "=" + root.getExp()+"\n\n"
+//			+"最小割集是："+ computeSet.getcloseSet(root.getExp().replace("+", " ").replace("*", "#"))+"\n\n"
+//			+"最小径集是："+minvalues+"\n\n";
+//			endtime=System.currentTimeMillis();
+//			System.out.println(result);
+//			List<Map.Entry<String,Double>> list = new ArrayList<Map.Entry<String,Double>>(minCost.entrySet());
+//		Collections.sort(list,new Comparator<Map.Entry<String,Double>>() {
+////升序排序
+//public int compare(Map.Entry<String, Double> o1,
+//		Map.Entry<String, Double> o2) {
+//		return o1.getValue().compareTo(o2.getValue());
+//		}
+//
+//		});
+//
+//		String res="";
+//		for(Map.Entry<String, Double> mapping:list){
+//		res+=mapping.getKey()+":"+String.format("%.2f", mapping.getValue())+"\n";
+//		}
+//		res+="\n\n\n";
+//		System.out.println(res);
